@@ -337,3 +337,39 @@ INSERT INTO CONTRACT (ID_CONTRACT, ID_CLIENT, ID_SEDIU, ID_ANGAJAT, ID_MASINA, D
 	VALUES (4,5020425375400,4,5,4,'02/20/2020',39999,2,'plata in 120 rate');
 INSERT INTO CONTRACT (ID_CONTRACT, ID_CLIENT, ID_SEDIU, ID_ANGAJAT, ID_MASINA, DATA_INTOCMIRE, VALOARE, GARANTIE, DESCRIERE) 
 	VALUES (11,7711223517268,10,10,5,'07/19/2018',4000,1,'');
+
+-- BONUS
+
+SET SERVEROUTPUT ON
+
+DECLARE
+    id_contract_val NUMBER(5,0);
+    detalii VARCHAR2(100);
+    nume VARCHAR2(30);
+    prenume VARCHAR2(30);
+    pret NUMBER(6,0);
+
+BEGIN
+    id_contract_val := 14;
+    
+    SELECT 
+        CONTRACT.DESCRIERE INTO detalii,
+        CLIENT.NUME INTO nume,
+        CLIENT.PRENUME INTO prenume,
+        CONTRACT.VALOARE INTO pret
+    FROM  CONTRACT, CLIENT
+    JOIN CLIENT ON CONTRACT.ID_CLIENT = CLIENT.CNP
+    WHERE CONTRACT.ID_CONTRACT = id_contract_val;
+
+    DBMS_OUTPUT.PUT_LINE('Id_contract: ' || id_contract_val);
+    DBMS_OUTPUT.PUT_LINE('Nume client: ' || nume || ' ' || prenume || ', Suma totală: ' || pret);
+    DBMS_OUTPUT.PUT_LINE('Detalii contract: ' || detalii);
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Nu s-au găsit date pentru contractul cu ID-ul ' || id_contract_val);
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('A apărut o eroare: ' || SQLERRM);
+
+END;
+/
