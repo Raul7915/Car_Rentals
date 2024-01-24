@@ -1,2 +1,3 @@
 *.sql linguist-detectable=true
-*.sql linguist-language=sql, plsql
+*.sql linguist-language=sql
+*.plsql linguist-detectable=true
